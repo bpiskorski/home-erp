@@ -4,6 +4,7 @@ import com.erpproject.homemade_erp.model.Customer;
 import com.erpproject.homemade_erp.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping
-    public Customer addCustomer(@RequestBody Customer customer) {
+    public Customer addCustomer(@Validated @RequestBody Customer customer) {
         return customerService.addCustomer(customer);
     }
 

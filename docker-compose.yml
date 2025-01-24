@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .docker exec -it erp_app ping postgres
+      dockerfile: Dockerfile
+    container_name: erp_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/db
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=pass
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    networks:
+      - erp_network
+
+  postgres:
+    image: postgres:15
+    container_name: erp_postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: db
+    ports:
+      - "5432:5432" # Map the PostgreSQL port to the host
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - erp_network
+
+volumes:
+  postgres_data: # Persistent storage for PostgreSQL data
+    driver: local
+
+networks:
+  erp_network: # Shared network for app and database
+    driver: bridge
+

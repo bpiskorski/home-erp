@@ -11,3 +11,4 @@ public class SimpleErpApplication {
 	}
 
 }
+//SimpleERP 0.0.1-SNAPSHOT
